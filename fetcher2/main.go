@@ -19,17 +19,17 @@ type Fetcher interface {
 // pages starting with url, to a maximum of depth.
 
 func Crawl(url string, depth int, fetcher Fetcher) {
-	// mu.Lock()
-	// _, ok := visitedMap[url]
-	// mu.Unlock()
+	mu.Lock()
+	_, ok := visitedMap[url]
+	mu.Unlock()
+	if ok {
+		return
 
-	// if ok {
-	// 	return
-	// } else {
-	// 	mu.Lock()
-	// 	visitedMap[url] = true
-	// 	mu.Unlock()
-	// }
+	} else {
+		mu.Lock()
+		visitedMap[url] = true
+		mu.Unlock()
+	}
 
 	if depth <= 0 {
 		return
